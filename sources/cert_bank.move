@@ -105,6 +105,19 @@ module cert_bank::certificate_platform {
         inst.active = true;
     }
 
+        /// Revoke an institution (Admins Only)
+    public entry fun revoke_institution(
+        registry: &mut InstitutionRegistry, 
+        inst_index: u64, 
+        ctx: &mut TxContext
+    ) {
+        let sender = tx_context::sender(ctx);
+        assert!(is_admin(registry, sender), E_ONLY_ADMIN_USER);
+
+        let inst = &mut registry.institutions[inst_index];
+        inst.active = false;
+    }
+
 
 
     
