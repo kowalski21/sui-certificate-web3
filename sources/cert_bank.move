@@ -2,7 +2,6 @@
 // Move Contract Implmentation for certificate validation and issuance
 #[allow(duplicate_alias,unused_variable,unused_use,unused_field)]
 module cert_bank::certificate_platform {
-    // use sui::test_scenario;
     use sui::object;
     use sui::tx_context;
     use sui::transfer;
@@ -41,7 +40,7 @@ module cert_bank::certificate_platform {
     }
 
     /// Function to check if the sender is a super admin
-    public fun is_super_admin(registry: &InstitutionRegistry, sender: address): bool {
+    public fun is_super_admin(registry:  &InstitutionRegistry, sender: address): bool {
         vector::contains(&registry.super_admins, &sender)
     }
         /// Function to check if the sender is an admin
@@ -118,6 +117,8 @@ module cert_bank::certificate_platform {
         let inst = &mut registry.institutions[inst_index];
         inst.active = false;
     }
+
+    
     
 
 }
