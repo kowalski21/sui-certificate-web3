@@ -6,10 +6,19 @@ module cert_bank::certificate_platform {
     use sui::tx_context;
     use sui::transfer;
     use std::vector;
+    use sui::table;
 
-    const E_NOT_SUPER_ADMIN:u64 = 5;
-    const E_ADMIN_NOT_FOUND:u64 = 8;
-    const E_ONLY_ADMIN_USER: u64 = 12;
+    const E_NOT_SUPER_ADMIN:u64 = 25;
+    const E_ADMIN_NOT_FOUND:u64 = 28;
+    const E_ONLY_ADMIN_USER: u64 = 32;
+    // Admin cap
+    // public struct AdminCap has key {
+    //     id: sui::object::UID
+
+    // }
+
+    //  initializer function
+    // public fun init 
 
 
     /// Institution Registry struct (Singleton)
@@ -57,6 +66,7 @@ module cert_bank::certificate_platform {
     }
 
         /// Remove an admin (Super Admin Only)
+        /// error - need to fix removal of admin
     public entry fun remove_admin(registry: &mut InstitutionRegistry, admin_address: address, ctx: &mut TxContext) {
         let sender = tx_context::sender(ctx);
         assert!(is_super_admin(registry, sender), E_NOT_SUPER_ADMIN);
@@ -81,7 +91,7 @@ module cert_bank::certificate_platform {
         ctx: &mut TxContext
     ) {
         let sender = tx_context::sender(ctx);
-        assert!(is_admin(registry, sender), E_ONLY_ADMIN_USER);
+        // assert!(is_admin(registry, sender), E_ONLY_ADMIN_USER);
 
         let inst = Institution {
             id: object::new(ctx),
