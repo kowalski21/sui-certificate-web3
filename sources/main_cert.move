@@ -148,7 +148,6 @@ module cert_bank::cert_platform {
     }
 
     public fun activate_cert(_:&AdminStruct,cert: &mut InstCert, ctx: &mut TxContext){
-
         cert.active = true;
     }
 
