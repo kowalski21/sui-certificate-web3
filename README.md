@@ -46,21 +46,54 @@ Sui Certificate Web3 is a blockchain-based system for issuing and managing verif
 
 
 ```move
-struct Platform has key {
-    id: UID,
-    admin: address,
-    revenue: Balance<SUI>,
-    verification_fee: u64
-}
+    public struct AdminStruct has key {
+        id: UID,
+        
+    }
+    public struct InstitutionRegistry has key, store {
+        id: UID,
+        institutions: vector<Institution>,
+        dt: u64
+    }
 
-struct Institution has key {
-    id: UID,
-    name: String,
-    address: address,
-    credentials: LinkedTable<String, Credential>,
-    reputation_score: u64,
-    verified: bool
-}
+    public struct Institution has key, store {
+        id: UID,
+        owner: address,
+        name: string::String,
+        active: bool,
+        dt: u64,
+    }
+
+    public struct InstCert has key, store {
+        id: UID,
+        owner: address,
+        instituition: address,
+        name: std::string::String,
+        active: bool,
+        dt: u64,
+    }
+    public struct InstitutionAddedEvent has copy, drop, store {
+        id: ID,
+        name: string::String,
+        owner: address,
+        dt: u64,
+        active: bool,
+    }
+
+    // Events registry struct
+    public struct RegistryCreatedEvent has copy, drop {
+        registry_id: ID,
+        timestamp: u64,
+    }
+
+    public struct CertDetailsEvent has copy, drop, store {
+        id: ID,
+        owner: address,
+        institution: address,
+        name: string::String,
+        active: bool,
+        dt: u64,
+    }
 ```
 
 
