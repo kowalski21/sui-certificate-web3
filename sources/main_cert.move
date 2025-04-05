@@ -11,6 +11,8 @@ module cert_bank::cert_platform {
     use sui::event;
 
 
+    // Error Code Constants
+
     const E_NOT_SUPER_ADMIN:u64 = 25;
     const E_ADMIN_NOT_FOUND:u64 = 28;
     const E_ONLY_ADMIN_USER: u64 = 29;
@@ -121,14 +123,14 @@ module cert_bank::cert_platform {
 
     
     
-    public fun activate_institution(_: &AdminStruct, registry: &mut InstitutionRegistry,inst_name: string::String){
+    public entry fun activate_institution(_: &AdminStruct, registry: &mut InstitutionRegistry,inst_name: string::String){
         let (found,idx) = get_instituition(registry, inst_name);
         assert!(found,E_INST_NOT_FOUND);
         let inst = &mut registry.institutions[idx];
         inst.active = true;
     }
 
-    public fun issue_cert(registry: &mut InstitutionRegistry,name:string::String,inst_name:string::String,ctx: &mut TxContext){
+    public entry fun issue_cert(registry: &mut InstitutionRegistry,name:string::String,inst_name:string::String,ctx: &mut TxContext){
         let (found,idx) = get_instituition(registry, inst_name);
         assert!(found,E_INST_NOT_FOUND);
         let inst = &mut registry.institutions[idx];
@@ -147,15 +149,15 @@ module cert_bank::cert_platform {
 
     }
 
-    public fun activate_cert(_:&AdminStruct,cert: &mut InstCert, ctx: &mut TxContext){
+    public entry fun activate_cert(_:&AdminStruct,cert: &mut InstCert, ctx: &mut TxContext){
         cert.active = true;
     }
 
-    public fun revoke_cert(_:&AdminStruct,cert: &mut InstCert, ctx: &mut TxContext){
+    public entry fun revoke_cert(_:&AdminStruct,cert: &mut InstCert, ctx: &mut TxContext){
         cert.active = false;
     }
 
-    public fun verify_cert(cert: &InstCert, ctx: &mut TxContext): bool {
+    public entry fun verify_cert(cert: &InstCert, ctx: &mut TxContext): bool {
 
         let active_cert = cert.active;
         active_cert
